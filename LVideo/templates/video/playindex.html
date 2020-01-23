@@ -1,0 +1,64 @@
+{% extends "video/base.html" %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block button %}
+    <a class="l-menu_button" href="#">播放</a>
+{% endblock %}
+
+
+{#待加相关动画、相关推荐、留言、反馈#}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <img class="poster" width="180px" height="236px" src="{{ video_play_index.cover_url }}" alt="{{ video_play_index.name }}">
+            </div>
+            <div class="col-9">
+                <div class="videoinfo">
+                    <p><span>名称： {{ video_play_index.name }}</span></p>
+                    <p><span>导演： {{ video_play_index.director }}</span></p>
+                    <p><span>演员： {{ video_play_index.actor }}</span></p>
+                    <p><span>类型： {{ video_play_index.first_type }}</span>&nbsp;&nbsp;<span>地区： {{ video_play_index.region }}</span></p>
+                    <p><span>更新时间： {{ video_play_index.update_time }}</span>&nbsp;&nbsp;<span>集数： {{ video_play_index.nums }}</span></p>
+                    <p><span>上映年份： {{ video_play_index.release_time }}</span></p>
+                </div>
+                <hr/>
+            </div>
+        </div>
+        <div class="row">
+{#            <p><span>简介： </span></p>#}
+            <p id="video-intro"><span>{{ video_play_index.intro }}</span></p>
+            <hr/>
+            <div class="container">
+                <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-play-1-tab" data-toggle="tab" href="#play-1" role="tab" aria-controls="play-1" aria-selected="true">在线播放一</a>
+                </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-play-1-tab" role="tabpanel" aria-labelledby="nav-play-1-tab">
+                        <ul class="list-inline">
+                            {% for video_link in video_links %}
+                              <li class="list-inline-item">
+                                  <a href="{% url 'video-play' video_play_index.id video_link.id %}" target="" title="">{{ video_link.number }}</a>
+                              </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% block iframe %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

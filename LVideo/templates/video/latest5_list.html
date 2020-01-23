@@ -1,0 +1,40 @@
+{% extends "video/base.html" %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="container videolist">
+        {% include "video/pagination.html" %}
+        <div class="row">
+            <ul class="list-inline latest5_list" style="padding-left: 3.5%;">
+            {% for video in video_list %}
+                <li class="list-inline-item p-2">
+                <div class="cover_img_span2">
+                    <a href="{% url 'video-detail' video.id %}">
+                    <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                    <img width="150px" height="208px" class="cover_img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                    </a>
+                </div>
+                <a href="{% url 'video-detail' video.id %}">
+                    <div class="text-truncate text-center" style="max-width: 150px;">{{ video.name }}</div></a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% include "video/pagination.html" %}
+    </div>
+{% endblock %}
+
+{% block links %}
+    {% for link in links %}
+    <span><a href="{{ link.link }}">{{ link.name }}</a></span>
+    {% endfor %}
+{% endblock %}
+
+

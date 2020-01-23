@@ -1,0 +1,74 @@
+<div id="register" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content l-register-login">
+            <div class="modal-body">
+                <button class="close l-register-login" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-title">
+                <h1 class="text-center">注册</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" id="registerform" method="post" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">用户名</label>
+                        <input class="form-control" type="text" name="username" id="r-username" placeholder="6-15位字母或数字">
+                    </div>
+                    <div class="form-group">
+                        <label for="">密码</label>
+                        <input class="form-control" type="password" name="password1" id="password1" placeholder="至少6位字母或数字">
+                    </div>
+                    <div class="form-group">
+                        <label for="">再次输入密码</label>
+                        <input class="form-control" type="password" name="password2" id="password2" placeholder="至少6位字母或数字">
+                    </div>
+                    <div class="form-group">
+                        <label for="">邮箱</label>
+                        <input class="form-control" type="email" name="email" id="email" placeholder="例如:123@123.com">
+                    </div>
+                    <div class="text-left">
+                        <span class="alert-warning" id="register-info"></span>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="button" id="registerbtn">提交</button>
+                        <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                    </div>
+                    <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
+                </form>
+            </div>
+            <script type="text/javascript">
+                $("#registerbtn").click(function() {
+                    $.ajax({
+                        {#cache:false,#}
+                        type:"POST",
+                        url:"/register",
+                        dataType:'json',
+                        data:{
+                            "csrfmiddlewaretoken": '{{ csrf_token }}',
+                            "username": $("#r-username").val(),
+                            "password1": $("#password1").val(),
+                            "password2": $("#password2").val(),
+                            "email": $("#email").val(),
+                        },
+                        async:true,
+                        success:function (data) {
+                            if(data.status==="success") {
+                                $("#register-info").text(data.msg);
+                                {#$('#register').modal('hide');#}
+                                window.location.reload();
+                            }
+                            else if(data.status==="fail"){
+                                $('#register-info').text(data.msg);
+                            }
+                        },
+                    });
+                });
+                $("input").bind('input propertychange', function() {
+                    $('#register-info').html('');
+                });
+            </script>
+        </div>
+    </div>
+</div>

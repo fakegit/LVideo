@@ -1,0 +1,72 @@
+<div id="login" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content l-register-login">
+            <div class="modal-body">
+                <button class="close l-register-login" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-title">
+                <h1 class="text-center">登录</h1>
+            </div>
+            <div class="modal-body">
+                <form class="form-group" id="loginform" method="post" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="">用户名</label>
+                        <input class="form-control" type="text" name="username" id="l-username" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="">密码</label>
+                        <input class="form-control" type="password" name="password" id="password" placeholder="">
+                    </div>
+                    <div class="text-left">
+                        <span class="alert-warning" id="login-info"></span>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="button" id="loginbtn">登录</button>
+                        <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                    </div>
+                    <a href="" data-toggle="modal" data-dismiss="modal" data-target="#register">还没有账号？点我注册</a>
+                </form>
+            </div>
+            <script type="text/javascript">
+                {#const token = $('input[name=csrfmiddlewaretoken]').val();#}
+                $("#loginbtn").click(function() {
+                    $.ajax({
+                        {#cache:false,#}
+                        type:"POST",
+                        url:"/login",
+                        dataType:'json',
+                        data:{
+                            "csrfmiddlewaretoken": '{{ csrf_token }}',
+                            "username": $("#l-username").val(),
+                            "password": $("#password").val(),
+                        },
+                        //通过id找到提交form表单，并将表单转成字符串
+                        async:true,
+                        //异步为真，ajax提交的过程中，同时可以做其他的操作
+                        success:function (data) {
+                            //jquery3以后，会将回传过来的字符串格式的data自动json解析不用再使用一遍JSON.parse(data)了，不然反而会在控制台报错
+                            if(data.status==="success") {
+                                {#$("#login-info").text(data.msg);#}
+                                {#$('#login').modal('hide');#}
+                                window.location.reload();
+                            }
+                            else if(data.status==="fail"){
+                                $('#login-info').text(data.msg);
+                            }
+                            {#console.log(data);#}
+                            {#console.log(data.status);#}
+                            {#console.log(data.message);#}
+                        },
+                    });
+                });
+                //如果显示了错误信息，修改输入框内容，错误信息隐藏
+                $("input").bind('input propertychange', function() {
+                    $('#login-info').html('');
+                });
+            </script>
+        </div>
+    </div>
+</div>

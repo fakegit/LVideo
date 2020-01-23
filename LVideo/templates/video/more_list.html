@@ -1,0 +1,76 @@
+{% extends "video/base.html" %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block button %}
+    {% if button %}
+    <a class="l-menu_button " href="#">{{ button }}</a>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+<div class="container" id="filter">
+
+</div>
+
+<div class="container" id="dm-list">
+    <hr/>
+    {% if keyword %}
+        {% include "video/search_pagination.html" %}
+    {% else %}
+        {% include "video/pagination.html" %}
+    {% endif %}
+    {% if video_list %}
+        {% for video in video_list %}
+        <div class="type-list-card" style="height: 300px;">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="cover_img_span3">
+                        <a href="{% url 'video-detail' video.id %}">
+                        <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                        <img width="180px" height="236px" class="type-list-card-img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="type-list-card-body" id="dm-card">
+                        <h5 class="type-list-card-title">{{ video.name }}</h5>
+                        <p class="type-list-card-text"><small class="text-muted">导演： {{ video.director }}</small></p>
+                        <p class="type-list-card-text text-truncate"><small class="text-muted">演员： {{ video.actor }}</small></p>
+                        <li class="list-inline">
+                            <p class="type-list-card-text list-inline-item" id="first"><small class="text-muted">类型： {{ video.first_type }}</small></p>
+                            <p class="type-list-card-text list-inline-item" id="second"><small class="text-muted">地区： {{ video.region }}</small></p>
+                        </li>
+                        <li class="list-inline">
+                            <p class="type-list-card-text list-inline-item" id="first"><small class="text-muted">更新时间： {{ video.update_time }}</small></p>
+                            <p class="type-list-card-text list-inline-item" id="second"><small class="text-muted">集数： {{ video.nums }}</small></p>
+                        </li>
+                        <p class="type-list-card-text"><small class="text-muted">上映年份： {{ video.release_time }}</small></p>
+                        <p class="type-list-card-text text-truncate" style="max-width: 800px;"><small class="text-muted">简介： {{ video.intro }}</small></p>
+                        <div class="type-list-card-btns">
+                            <a class="type-list-card-btns-link" href="{% url 'video-detail' video.id %}">资源详情</a>
+                            <a class="type-list-card-btns-link" href="{% url 'video-play-index' video.id %}">在线播放</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="none-videolist" style="height: 100%;background-color: #202020;block-size: 1000px;">
+            <p class="h5" style="text-align: center;">未找到视频资源</p>
+        </div>
+    {% endif %}
+    {% if keyword %}
+        {% include "video/search_pagination.html" %}
+    {% else %}
+        {% include "video/pagination.html" %}
+    {% endif %}
+</div>
+{% endblock %}

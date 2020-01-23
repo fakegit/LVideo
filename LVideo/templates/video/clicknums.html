@@ -1,0 +1,72 @@
+{% extends "video/base.html" %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <ul class="rank_ul">
+                    {% for video in video_list %}
+                        {% if forloop.counter < 26 %}
+                            <li class="rank_text list-inline">
+                                <span class="rank_text_id">{{ forloop.counter }}</span>
+                                <a href="{% url 'video-detail' video.id %}">
+                                    <span class="rank_text_name" title="{{ video.name }}">{{ video.name }}</span></a>
+                                <span class="rank_value">{{ video.pv }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3">
+                <ul class="rank_ul">
+                    {% for video in video_list %}
+                        {% if forloop.counter > 25 and forloop.counter < 51 %}
+                            <li class="rank_text list-inline">
+                                <span class="rank_text_id">{{ forloop.counter }}</span>
+                                <a href="{% url 'video-detail' video.id %}">
+                                    <span class="rank_text_name" title="{{ video.name }}">{{ video.name }}</span></a>
+                                <span class="rank_value">{{ video.pv }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3">
+                <ul class="rank_ul">
+                    {% for video in video_list %}
+                        {% if forloop.counter > 50 and forloop.counter < 76 %}
+                            <li class="rank_text list-inline">
+                                <span class="rank_text_id">{{ forloop.counter }}</span>
+                                <a href="{% url 'video-detail' video.id %}">
+                                    <span class="rank_text_name" title="{{ video.name }}">{{ video.name }}</span></a>
+                                <span class="rank_value">{{ video.pv }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3">
+                <ul class="rank_ul">
+                    {% for video in video_list %}
+                        {% if forloop.counter > 75 %}
+                            <li class="rank_text list-inline">
+                                <span class="rank_text_id">{{ forloop.counter }}</span>
+                                <a href="{% url 'video-detail' video.id %}">
+                                    <span class="rank_text_name" title="{{ video.name }}">{{ video.name }}</span></a>
+                                <span class="rank_value">{{ video.pv }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

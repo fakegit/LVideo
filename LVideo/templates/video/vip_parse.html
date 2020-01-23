@@ -1,0 +1,53 @@
+{% extends "video/base.html" %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+    <div class="vip-logo">VIP视频在线解析</div>
+    <div class="parse-search">
+        <form id="str-post" class="input-group" method="post" action='{% url 'vip-parse' %}'>
+            {% csrf_token %}
+            <input type="text" id="input-url" class="form-control" placeholder="请输入播放地址后解析,支持爱奇艺,优酷,土豆等VIP视频播放地址">
+            <div class="input-group-append">
+                <label class="path" style="width: 200px">
+                  <select class="form-control" id="p-selected">
+                      {% for parse_interface in parse_interfaces %}
+                          <option value="{{ parse_interface.parse_url }}">{{ parse_interface.name }}</option>
+                      {% endfor %}
+                  </select>
+                </label>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </div>
+        </form>
+        <iframe  src="http://image.joelyings.com/2020-01-11-8.gif" height="548px" width="100%" id="player" scrolling="no" frameborder="0"></iframe>
+        <script type="text/javascript">
+            $("#str-post").submit(function () {
+            $("html,body").animate({
+                scrollTop: $(".parse-search").offset().top
+            }, 200);
+            $('#player').attr("src", document.getElementById("p-selected").value + $("#input-url").val());
+            $('#player').attr("style","height: 548px!important;");
+            return false;
+        })
+        </script>
+        <div class="am-alert am-alert-secondary">
+{#            <p>本站支持解析百度网盘，优酷，乐视，芒果，搜狐，快手，土豆，PPTV，华数TV，爱奇艺，腾讯，优酷，ACFUN，哔哩哔哩，QQ空间视频，韩国棒子云，搜狐云，M3U8，1905电影，拉面网，音悦台，美拍，秒拍，酷6，56视频，cctv央视网，糖豆网，6间房，网易公开课，虎牙，凤凰，龙珠，YY神曲，17173等网站视频</p>#}
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block links %}
+    {% for link in links %}
+    <span><a href="{{ link.link }}">{{ link.name }}</a></span>
+    {% endfor %}
+{% endblock %}

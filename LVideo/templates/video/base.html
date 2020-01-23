@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}首页{% endblock %} - LVideo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/common.css' %}">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+{#    <script type="text/javascript" src="{% static 'js/ckplayer.js' %}"></script>#}
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>
+    <div class="container l-head">
+        <div class="l-head-bar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">LVideo - 基于Django的视频网站</a>
+                <ul class="navbar-nav ml-auto">
+                    {% block login-register %}
+                    {% endblock %}
+                </ul>
+            </nav>
+        </div>
+        <div class="l-head-img">
+            <img src="http://image.joelyings.com/20-1-1-2105.png" class="img-fluid" alt="Responsive image">
+        </div>
+        <div class="l-head-menu">
+            <nav class="navbar navbar-light bg-light">
+            <div class="l-head-buttons">
+                <a class="l-menu_button" href="/">首页</a>
+                <a class="l-menu_button" href="{% url 'vip-parse' %}">VIP</a>
+                <a class="l-menu_button" href="{% url 'latest5' %}">最近更新</a>
+                <a class="l-menu_button" href="{% url 'clicknums' %}">点击排行</a>
+                {% block button %}
+                {% endblock %}
+            </div>
+            <form class="form-inline" action='{% url 'search' %}' method="GET">
+                <input class="form-control mr-sm-2" type="search" value="{{ keyword }}" name="keyword" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            </nav>
+        </div>
+    </div>
+
+    {% block main %}
+    {% endblock %}
+    <div class="container footer">
+        <footer class="footer">
+            <div class="container links">
+            {% block links %}
+            {% endblock %}
+            </div>
+            <div class="container power">
+                <span class="text-muted">Power by Joel</span>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

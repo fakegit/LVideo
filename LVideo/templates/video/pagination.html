@@ -1,0 +1,35 @@
+{% block paginate %}
+{% if is_paginated %}
+    <nav aria-label="Page navigation ">
+        <ul class="pagination  justify-content-center">
+            {% if page_obj.has_previous %}
+                {% if page_obj.number >= max_left_item_count|add:max_left_item_count %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;&laquo;</a></li>
+                {% endif %}
+                <li  class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;&laquo;</a></li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <li class="page-item active">
+                        <span  class="page-link" >{{ i }} <span  class="sr-only page-link">(current)</span></span>
+                    </li>
+                {%  elif  page_obj.number|add:max_left_item_count >= i and  i|add:max_left_item_count  >= page_obj.number  %}
+                    <li  class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <li  class=" page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% if  page_obj.paginator.num_pages >  page_obj.number|add:max_left_item_count  %}
+                    <li  class=" page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;&raquo;</a></li>
+                {% endif %}
+            {% else %}
+                <li  class=" page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

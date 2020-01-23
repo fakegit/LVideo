@@ -1,0 +1,68 @@
+{% extends "video/base.html" %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block button %}
+    <a class="l-menu_button" href="#">详情</a>
+{% endblock %}
+
+
+{#待加相关动画、相关推荐、留言、反馈#}
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <img class="poster" width="180px" height="236px" src="{{ video_detail.cover_url }}" alt="{{ video_detail.name }}">
+    {#            <div class="card" style="width: 18rem;">#}
+    {#              <div class="card-body">#}
+    {#                <h5 class="card-title">Card title</h5>#}
+    {#                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>#}
+    {#                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>#}
+    {#                <a href="#" class="card-link">Card link</a>#}
+    {#                <a href="#" class="card-link">Another link</a>#}
+    {#              </div>#}
+    {#            </div>#}
+                <div style="border: 1px;margin-left: 20px;margin-top: 10px;">
+                    相关动画：
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="videoinfo">
+                    <p><span>名称： {{ video_detail.name }}</span></p>
+                    <p><span>导演： {{ video_detail.director }}</span></p>
+                    <p><span>演员： {{ video_detail.actor }}</span></p>
+                    <p><span>类型： {{ video_detail.first_type }}</span>&nbsp;&nbsp;<span>地区： {{ video_detail.region }}</span></p>
+                    <p><span>更新时间： {{ video_detail.update_time }}</span>&nbsp;&nbsp;<span>集数： {{ video_detail.nums }}</span></p>
+                    <p><span>上映年份： {{ video_detail.release_time }}</span></p>
+                    <p><span>简介： </span></p>
+                    <p><span>{{ video_detail.intro }}</span></p>
+                </div>
+                <hr/>
+                <nav>
+                  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-play-1-tab" data-toggle="tab" href="#play-1" role="tab" aria-controls="play-1" aria-selected="true">在线播放一</a>
+                    <a class="nav-item nav-link" id="nav-play-2-tab" data-toggle="tab" href="#play-2" role="tab" aria-controls="play-2" aria-selected="false">在线播放二</a>
+                  </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="nav-play-1-tab" role="tabpanel" aria-labelledby="nav-play-1-tab">
+                      <ul class="list-inline">
+                          {% for video_link in video_links %}
+                            <li class="list-inline-item">
+                                <a href="{% url 'video-play' video_detail.id video_link.id %}" target="_self" title="">{{ video_link.number }}</a>
+                            </li>
+                          {% endfor %}
+                      </ul>
+                  </div>
+                  <div class="tab-pane fade" id="nav-play-2-tab" role="tabpanel" aria-labelledby="nav-play-2-tab">...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

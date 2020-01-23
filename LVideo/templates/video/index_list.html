@@ -1,0 +1,213 @@
+{% extends "video/base.html" %}
+
+{% block login-register %}
+    {% if request.session.is_login %}
+        {% include "video/user_model.html" %}
+    {% else %}
+        {% include "video/model.html" %}
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <div class="container videolist">
+        <p class="h5" id="more"><a href="{% url 'dm-list' %}">动漫</a></p>
+        <div class="row videotype">
+            <div class="col-9">
+                <ul class="list-inline index-9">
+                {% for video in dm_list %}
+                    <li class="list-inline-item p-2">
+                    <div class="cover_img_span1">
+                        <a href="{% url 'video-detail' video.id %}">
+                        <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                        <img width="120px" height="165px" class="cover_img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                        </a>
+                    </div>
+                    <a href="{% url 'video-detail' video.id %}">
+                        <div class="text-truncate text-center" style="max-width: 120px;" title="{{ video.name }}">{{ video.name }}</div></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3 time">
+                <div class="row timetable">
+                    <span id="time-play">新番时间表</span>
+                </div>
+{#                {% include 'video/timetable.html' %}#}
+                <ul class="list-inline time">
+                {% for video in dm_pv_list %}
+                    <dl class="row" style="margin-bottom: 0;">
+                        <dt class="col-sm-7" style="font-weight: unset;">
+                            <a href="{% url 'video-detail' video.id %}">
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ video.name }}">{{ video.name }}</span>
+                            </a>
+                        </dt>
+                        <dd class="col-sm-5">
+                            <span class="d-inline-block" style="height: 24px; width: 90px; overflow: hidden;">{{ video.update_time }}</span>
+                        </dd>
+                    </dl>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <p class="h5" id="more"><a href="{% url 'mv-list' %}">电影</a></p>
+        <div class="row videotype">
+            <div class="col-9">
+                <ul class="list-inline index-9">
+                {% for video in mv_list %}
+                    <li class="list-inline-item p-2">
+                    <div class="cover_img_span1">
+                        <a href="{% url 'video-detail' video.id %}">
+                        <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                        <img width="120px" height="165px" class="cover_img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                        </a>
+                    </div>
+                    <a href="{% url 'video-detail' video.id %}">
+                        <div class="text-truncate text-center" style="max-width: 120px;" title="{{ video.name }}">{{ video.name }}</div></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3 hot">
+                <div class="row hottable">
+                    <span id="hot-play">热门播放</span>
+                </div>
+                <ul class="list-inline hot">
+                {% for video in mv_pv_list %}
+                    <dl class="row" style="margin-bottom: 0;">
+                        <dt class="col-sm-7" style="font-weight: unset;">
+                            <a href="{% url 'video-detail' video.id %}">
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ video.name }}">{{ video.name }}</span>
+                            </a>
+                        </dt>
+                        <dd class="col-sm-5">
+                            <span class="d-inline-block" style="height: 24px; width: 90px; overflow: hidden;">{{ video.update_time }}</span>
+                        </dd>
+                    </dl>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <p class="h5" id="more"><a href="{% url 'tv-list' %}">电视剧</a></p>
+        <div class="row videotype">
+            <div class="col-9">
+                <ul class="list-inline index-9">
+                {% for video in tv_list %}
+                    <li class="list-inline-item p-2">
+                    <div class="cover_img_span1">
+                        <a href="{% url 'video-detail' video.id %}">
+                        <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                        <img width="120px" height="165px" class="cover_img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                        </a>
+                    </div>
+                    <a href="{% url 'video-detail' video.id %}">
+                        <div class="text-truncate text-center" style="max-width: 120px;" title="{{ video.name }}">{{ video.name }}</div></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3 hot">
+                <div class="row hottable">
+                    <span id="hot-play">热门播放</span>
+                </div>
+                <ul class="list-inline hot">
+                {% for video in tv_pv_list %}
+                    <dl class="row" style="margin-bottom: 0;">
+                        <dt class="col-sm-7" style="font-weight: unset;">
+                            <a href="{% url 'video-detail' video.id %}">
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ video.name }}">{{ video.name }}</span>
+                            </a>
+                        </dt>
+                        <dd class="col-sm-5">
+                            <span class="d-inline-block" style="height: 24px; width: 90px; overflow: hidden;">{{ video.update_time }}</span>
+                        </dd>
+                    </dl>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <p class="h5" id="more"><a href="{% url 'zy-list' %}">综艺</a></p>
+        <div class="row videotype">
+            <div class="col-9">
+                <ul class="list-inline index-9">
+                {% for video in zy_list %}
+                    <li class="list-inline-item p-2">
+                    <div class="cover_img_span1">
+                        <a href="{% url 'video-detail' video.id %}">
+                        <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                        <img width="120px" height="165px" class="cover_img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                        </a>
+                    </div>
+                    <a href="{% url 'video-detail' video.id %}">
+                        <div class="text-truncate text-center" style="max-width: 120px;" title="{{ video.name }}">{{ video.name }}</div></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3 hot">
+                <div class="row hottable">
+                    <span id="hot-play">热门播放</span>
+                </div>
+                <ul class="list-inline hot">
+                {% for video in zy_pv_list %}
+                    <dl class="row" style="margin-bottom: 0;">
+                        <dt class="col-sm-7" style="font-weight: unset;">
+                            <a href="{% url 'video-detail' video.id %}">
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ video.name }}">{{ video.name }}</span>
+                            </a>
+                        </dt>
+                        <dd class="col-sm-5">
+                            <span class="d-inline-block" style="height: 24px; width: 90px; overflow: hidden;">{{ video.update_time }}</span>
+                        </dd>
+                    </dl>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <p class="h5" id="more"><a href="{% url 'ot-list' %}">其他</a></p>
+        <div class="row videotype">
+            <div class="col-9">
+                <ul class="list-inline index-9">
+                {% for video in ot_list %}
+                    <li class="list-inline-item p-2">
+                    <div class="cover_img_span1">
+                        <a href="{% url 'video-detail' video.id %}">
+                        <span class="cover_remark" title="{{ video.remark }}">{{ video.remark }}</span>
+                        <img width="120px" height="165px" class="cover_img" src="{{ video.cover_url }}" title="{{ video.name }}">
+                        </a>
+                    </div>
+                    <a href="{% url 'video-detail' video.id %}">
+                        <div class="text-truncate text-center" style="max-width: 120px;" title="{{ video.name }}">{{ video.name }}</div></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="col-3 hot">
+                <div class="row hottable">
+                    <span id="hot-play">热门播放</span>
+                </div>
+                <ul class="list-inline hot">
+                {% for video in ot_pv_list %}
+                    <dl class="row" style="margin-bottom: 0;">
+                        <dt class="col-sm-7" style="font-weight: unset;">
+                            <a href="{% url 'video-detail' video.id %}">
+                                <span class="d-inline-block text-truncate" style="max-width: 150px;" title="{{ video.name }}">{{ video.name }}</span>
+                            </a>
+                        </dt>
+                        <dd class="col-sm-5">
+                            <span class="d-inline-block" style="height: 24px; width: 90px; overflow: hidden;">{{ video.update_time }}</span>
+                        </dd>
+                    </dl>
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block links %}
+    {% for link in links %}
+    <span><a href="{{ link.link }}">{{ link.name }}</a></span>
+    {% endfor %}
+{% endblock %}
+
+
